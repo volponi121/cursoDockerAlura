@@ -1,0 +1,55 @@
+version: '3'  
+services: 
+  
+  fixture:
+    build: 
+      dockerfile: ./docker/fixture.dockerfile
+      context: . 
+      image: 
+      container_name: fixture
+      ports:  
+        - # "80:80"
+      networks:  
+        - # network
+
+  conta:   
+    build: 
+      dockerfile: ./docker/conta.dockerfile
+      context: . 
+      image: 
+      container_name: conta
+      ports:  
+        - # "80:80"
+      networks:  
+        - # network 
+      depends_on: 
+        - "fixture"  
+
+  base-provisionada:
+    build:
+      dockerfile: ./docker/base-provisionada.dockerfile
+      context: .
+      image: 
+      container_name: base-provisionada
+      ports: 
+        - # "80:80"
+      networks: 
+        - # network
+      depends_on: 
+        - "conta"   
+
+  da:
+    build:
+      dockerfile: ./docker/da.dockerfile
+      context: .
+      image: 
+      container_name: da
+      ports: 
+        - # "80:80"
+      networks: 
+        - # network
+      depends_on: 
+        - "base-provisionada"    
+
+network: 
+  driver: bridge
